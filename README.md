@@ -19,14 +19,14 @@
 
 | URL                   | 请求   | 描述                         |
 |-----------------------|------|----------------------------|
-| /user/logout          | GET  | [登出](/user.md/#1登出)        |
-| /user/info            | GET  | [账号信息](/user.md/#2账号信息)    |
-| /user/getSubscribe    | GET  | [订阅信息](/user.md/#3订阅信息)    |
-| /user/resetSecurity   | GET  | [重置订阅链接](/user.md/#重置订阅链接) |
-| /user/getStat         | GET  | [代办事项](/user.md/#5代办事项)    |
-| /user/changePassword  | POST | [修改密码](/user.md/#6修改密码)    |
-| /user/update          | POST | [通知状态](/user.md/#7通知状态)    |
-| /user/transfer        | POST | [佣金划转](/user.md/#8佣金划转)    |
+| /user/logout          | GET  | [登出](#1登出)        |
+| /user/info            | GET  | [账号信息](#2账号信息)    |
+| /user/getSubscribe    | GET  | [订阅信息](#3订阅信息)    |
+| /user/resetSecurity   | GET  | [重置订阅链接](#重置订阅链接) |
+| /user/getStat         | GET  | [代办事项](#5代办事项)    |
+| /user/changePassword  | POST | [修改密码](#6修改密码)    |
+| /user/update          | POST | [通知状态](#7通知状态)    |
+| /user/transfer        | POST | [佣金划转](#8佣金划转)    |
 
 ### Plan
 
