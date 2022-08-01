@@ -1,6 +1,7 @@
 # V2Board 最全接口文档（1.6.0）
 
 > 感谢 v2board 提供的开源项目！ 完整api请查阅开源项目 : [v2board](https://github.com/v2board/v2board)
+
 > 本文档仅适用于1.6.0版本，1.6.1由于改动过大会等稳定后专门提出来写
 
 ## 目录
