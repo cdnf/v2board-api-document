@@ -38,27 +38,27 @@
 
 | URL                           | 请求   | 描述                       |
 |-------------------------------|------|--------------------------|
-| /user/order/fetch             | GET  | [订单列表](/order.md/#1订单列表) |
-| /user/order/getPaymentMethod  | GET  | [支付方式](/order.md/#2支付方式) |
-| /user/order/details?trade_no= | GET  | [订单详情](/order.md/#3订单详情) |
-| /user/order/check?trade_no=   | GET  | [订单状态](/order.md/#4订单状态) |
-| /user/order/save              | POST | [创建订单](/order.md/#5创建订单) |
-| /user/order/checkout          | POST | [结算订单](/order.md/#6结算订单) |
-| /user/order/cancel            | POST | [关闭订单](/order.md/#7关闭订单) |
+| /user/order/fetch             | GET  | [订单列表](#1订单列表) |
+| /user/order/getPaymentMethod  | GET  | [支付方式](#2支付方式) |
+| /user/order/details?trade_no= | GET  | [订单详情](#3订单详情) |
+| /user/order/check?trade_no=   | GET  | [订单状态](#4订单状态) |
+| /user/order/save              | POST | [创建订单](#5创建订单) |
+| /user/order/checkout          | POST | [结算订单](#6结算订单) |
+| /user/order/cancel            | POST | [关闭订单](#7关闭订单) |
 
 ### Invite
 
 | URL                  | 请求  | 描述                          |
 |----------------------|-----|-----------------------------|
-| /user/invite/fetch   | GET | [邀请码管理](/invite.md/#1邀请码管理) |
-| /user/invite/save    | GET | [生成邀请码](/invite.md/#2生成邀请码) |
-| /user/invite/details | GET | [邀请明细](/invite.md/#3邀请明细)   |
+| /user/invite/fetch   | GET | [邀请码管理](#1邀请码管理) |
+| /user/invite/save    | GET | [生成邀请码](#2生成邀请码) |
+| /user/invite/details | GET | [邀请明细](#3邀请明细)   |
 
 ### Notice
 
 | URL                  | 请求  | 描述                        |
 |----------------------|-----|---------------------------|
-| /user/notice/fetch   | GET | [公告信息](/notice.md/#1公告信息) |
+| /user/notice/fetch   | GET | [公告信息](#1公告信息) |
 
 ### Ticket
 gugugu...
@@ -561,4 +561,420 @@ ___
 | reset_traffic_method | number    | 重置流量方式 |
 | created_at           | timestamp | 套餐创建时间 |
 | updated_at           | timestamp | 套餐更新时间 |
+
+___
+
+## Order
+
+### 1.订单列表
+
+> `GET` /user/order/fetch
+
+- 请求参数
+  `null`
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": [
+    {
+      "invite_user_id": null,
+      "plan_id": 1,
+      "coupon_id": null,
+      "payment_id": 10,
+      "type": 1,
+      "cycle": "month_price",
+      "trade_no": "xxx",
+      "callback_no": null,
+      "total_amount": 10,
+      "discount_amount": null,
+      "surplus_amount": null,
+      "refund_amount": null,
+      "balance_amount": null,
+      "surplus_order_ids": null,
+      "status": 2,
+      "commission_status": 0,
+      "commission_balance": 0,
+      "paid_at": null,
+      "created_at": 1234567890,
+      "updated_at": 1234567890,
+      "plan": {
+        "表关联"
+      }
+    }
+  ]
+}
+```
+
+| 参数名                | 类型                       | 描述                        |
+|--------------------|--------------------------|---------------------------|
+| invite_user_id     | number                   | 邀请人id                     |
+| plan_id            | number                   | 订阅id                      |
+| coupon_id          | number                   | 优惠券id                     |
+| payment_id         | number                   | 支付方式id                    |
+| type               | number                   | 订单类型 1新购2续费3升级            |
+| cycle              | string                   | 订阅周期                      |
+| trade_no           | string                   | 订单号                       |
+| callback_no        | string                   | 退款单号                      |
+| total_amount       | number                   | 总金额                       |
+| discount_amount    | number                   | 折扣金额                      |
+| surplus_amount     | number                   | 剩余价值                      |
+| refund_amount      | number                   | 退款金额                      |
+| balance_amount     | number                   | 使用余额                      |
+| surplus_order_ids  | number                   | 折抵订单                      |
+| status             | number                   | 订单状态 0待支付1开通中2已取消3已完成4已折抵 |
+| commission_status  | number                   | 佣金状态 0待确认1发放中2有效3无效       |
+| commission_balance | number                   | 佣金余额                      |
+| paid_at            | timestamp                | 支付时间                      |
+| created_at         | timestamp                | 创建时间                      |
+| updated_at         | timestamp                | 更新时间                      |
+| plan               | [关联表](/plan.md/#1订阅商店列表) | 订阅详情                      |
+
+### 2.支付方式
+
+> `GET` /user/order/getPaymentMethod
+
+- 请求参数
+  `null`
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": [
+    {
+      "id": 10,
+      "name": "pay",
+      "payment": "XXXPay"
+    }
+  ]
+}
+```
+
+| 参数名     | 类型     | 描述   |
+|---------|--------|------|
+| id      | number | 支付id |
+| name    | string | 支付名称 |
+| payment | string | 支付模块 |
+
+### 3.订单详情
+
+> `GET` /user/order/details?trade_no={trade_no}
+
+- 请求参数 `query`
+
+| 参数名      | 类型     | 描述  |
+|----------|--------|-----|
+| trade_no | string | 订单号 |
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": {
+    "id": 1275,
+    "invite_user_id": null,
+    "user_id": 2057,
+    "plan_id": 1,
+    "coupon_id": null,
+    "payment_id": null,
+    "type": 1,
+    "cycle": "month_price",
+    "trade_no": "xxx",
+    "callback_no": null,
+    "total_amount": 10,
+    "discount_amount": null,
+    "surplus_amount": null,
+    "refund_amount": null,
+    "balance_amount": null,
+    "surplus_order_ids": null,
+    "status": 0,
+    "commission_status": 0,
+    "commission_balance": 0,
+    "paid_at": null,
+    "created_at": 1234567890,
+    "updated_at": 1234567890,
+    "plan": {
+      "表关联"
+    },
+    "try_out_plan_id": 0
+  }
+}
+```
+
+| 参数名                | 类型                       | 描述                        |
+|--------------------|--------------------------|---------------------------|
+| id                 | number                   | 订单id                      |
+| invite_user_id     | number                   | 邀请人id                     |
+| user_id            | number                   | 用户id                      |
+| user_id            | number                   | 用户自增id                    |
+| plan_id            | number                   | 订阅id                      |
+| coupon_id          | number                   | 优惠券id                     |
+| payment_id         | number                   | 支付方式id                    |
+| type               | number                   | 订单类型 1新购2续费3升级            |
+| cycle              | string                   | 订阅周期                      |
+| trade_no           | string                   | 订单号                       |
+| callback_no        | string                   | 退款单号                      |
+| total_amount       | number                   | 总金额                       |
+| discount_amount    | number                   | 折扣金额                      |
+| surplus_amount     | number                   | 剩余价值                      |
+| refund_amount      | number                   | 退款金额                      |
+| balance_amount     | number                   | 使用余额                      |
+| surplus_order_ids  | number                   | 折抵订单                      |
+| status             | number                   | 订单状态 0待支付1开通中2已取消3已完成4已折抵 |
+| commission_status  | number                   | 佣金状态 0待确认1发放中2有效3无效       |
+| commission_balance | number                   | 佣金余额                      |
+| paid_at            | timestamp                | 支付时间                      |
+| created_at         | timestamp                | 创建时间                      |
+| updated_at         | timestamp                | 更新时间                      |
+| plan               | [关联表](/plan.md/#1订阅商店列表) | 订阅详情                      |
+| try_out_plan_id    | number                   | 试用计划 ID                   |
+
+### 4.订单状态
+
+> `GET` /user/order/check?trade_no={trade_no}
+
+- 请求参数 `query`
+
+| 参数名      | 类型     | 描述  |
+|----------|--------|-----|
+| trade_no | string | 订单号 |
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": 0
+}
+```
+
+| 参数名  | 类型     | 描述                   |
+|------|--------|----------------------|
+| data | number | 0待支付1开通中2已取消3已完成4已折抵 |
+
+### 5.创建订单
+
+> `POST` /user/order/save
+
+- 请求参数 `json`
+
+```json
+{
+  "cycle": "month_price",
+  "plan_id": 1
+}
+```
+
+| 参数名     | 类型     | 描述   |
+|---------|--------|------|
+| cycle   | string | 订阅周期 |
+| plan_id | number | 订阅id |
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": "xxx"
+}
+```
+
+| 参数名  | 类型     | 描述  |
+|------|--------|-----|
+| data | string | 订单号 |
+
+### 6.结算订单
+
+> `POST` /user/order/checkout
+
+- 请求参数 `json`
+
+```json
+{
+  "trade_no": "xxx",
+  "method": 1
+}
+```
+
+| 参数名      | 类型     | 描述   |
+|----------|--------|------|
+| trade_no | string | 订单号  |
+| method   | number | 支付id |
+
+- 成功返回示例 `json`
+
+```json
+{
+  "type": 0,
+  "data": "xxx"
+}
+```
+
+| 参数名  | 类型     | 描述             |
+|------|--------|----------------|
+| type | number | 0:qrcode 1:url |
+| data | string | 付款地址           |
+
+### 7.关闭订单
+
+> `POST` /user/order/cancel
+
+- 请求参数 `json`
+
+```json
+{
+  "trade_no": "xxx"
+}
+```
+
+| 参数名      | 类型     | 描述   |
+|----------|--------|------|
+| trade_no | string | 订单号  |
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": true
+}
+```
+
+| 参数名  | 类型      | 描述     |
+|------|---------|--------|
+| data | boolean | 是否关闭成功 |
+
+___
+
+## Invite
+
+### 1.邀请码管理
+
+> `GET` /user/invite/fetch
+
+- 请求参数 `null`
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": {
+    "codes": [
+      {
+        "id": 1,
+        "user_id": 1,
+        "code": "xxx",
+        "status": 0,
+        "pv": 0,
+        "created_at": 1234567890,
+        "updated_at": 1234567890
+      }
+    ],
+    "stat": [
+      0,
+      0,
+      0,
+      15,
+      0
+    ]
+  }
+}
+```
+
+| 参数名              | 类型        | 描述     |
+|------------------|-----------|--------|
+| codes.id         | number    | 邀请码id  |
+| codes.user_id    | number    | 用户id   |
+| codes.code       | array     | 邀请码    |
+| codes.status     | number    | 邀请码状态  |
+| codes.pv         | number    | 访问量    |
+| codes.created_at | timestamp | 创建时间   |
+| codes.updated_at | timestamp | 更新时间   |
+| stat[0]          | number    | 已注册用户数 |
+| stat[1]          | number    | 有效的佣金  |
+| stat[2]          | number    | 确认中的佣金 |
+| stat[3]          | number    | 佣金比例   |
+| stat[4]          | number    | 可用佣金   |
+
+### 2.生成邀请码
+
+> `GET` /user/invite/save
+
+- 请求参数 `null`
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": true
+}
+```
+
+| 参数名  | 类型      | 描述   |
+|------|---------|------|
+| data | boolean | 生成成功 |
+
+### 3.邀请明细
+
+> `GET` /user/invite/details
+
+- 请求参数 `null`
+
+- 成功返回示例 `json`
+
+```json
+{
+  "id": 1,
+  "commission_status": 1,
+  "commission_balance": 10,
+  "created_at": 1234567890,
+  "updated_at": 1234567890
+}
+```
+
+| 参数名                | 类型        | 描述                  |
+|--------------------|-----------|---------------------|
+| id                 | number    | 邀请id                |
+| commission_status  | number    | 佣金状态 0待确认1发放中2有效3无效 |
+| commission_balance | number    | 佣金                  |
+| created_at         | timestamp | 创建时间                |
+| updated_at         | timestamp | 更新时间                |
+
+___
+
+## Notice
+
+### 1.公告信息
+
+> `GET` /user/notice/fetch
+
+- 请求参数 `null`
+
+- 成功返回示例 `json`
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "xxx",
+      "content": "xxx",
+      "img_url": null,
+      "created_at": 1234567890,
+      "updated_at": 1234567890
+    }
+  ],
+  "total": 1
+}
+```
+
+| 参数名        | 类型        | 描述   |
+|------------|-----------|------|
+| id         | number    | 公告id |
+| title      | string    | 标题   |
+| content    | string    | 内容   |
+| img_url    | timestamp | 背景图片 |
+| created_at | timestamp | 创建   |
+| updated_at | timestamp | 更新时间 |
+| total      | number    | 总条数  |
+
 
