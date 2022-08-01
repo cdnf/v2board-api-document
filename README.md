@@ -8,12 +8,12 @@
 
 | URL                            | 请求   | 描述                                |
 |--------------------------------|------|-----------------------------------|
-| /passport/comm/config          | GET  | [获取配置](###1获取配置)       |
-| /passport/auth/check           | GET  | [登入校验](###2登入校验)       |
-| /passport/auth/login           | POST | [登入账号](###3登入账号)       |
-| /passport/comm/sendEmailVerify | POST | [发送邮箱验证码](###4发送邮箱验证码) |
-| /passport/auth/register        | POST | [注册账号](###5注册账号)       |
-| /passport/auth/forget          | POST | [重置密码](###6重置密码)       |
+| /passport/comm/config          | GET  | [获取配置](#1获取配置)       |
+| /passport/auth/check           | GET  | [登入校验](#2登入校验)       |
+| /passport/auth/login           | POST | [登入账号](#3登入账号)       |
+| /passport/comm/sendEmailVerify | POST | [发送邮箱验证码](#4发送邮箱验证码) |
+| /passport/auth/register        | POST | [注册账号](#5注册账号)       |
+| /passport/auth/forget          | POST | [重置密码](#6重置密码)       |
 
 ### User
 
