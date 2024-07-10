@@ -4,6 +4,8 @@
 
 > 本文档仅适用于1.6.0版本，1.6.1由于改动过大会等稳定后专门提出来写
 
+**所有的GET 请求 均需要传入请求头 Authorization 值为 auth_data**
+
 ## 目录
 
 ### Passport
@@ -63,7 +65,12 @@
 | /user/notice/fetch   | GET | [公告信息](#1公告信息) |
 
 ### Ticket
-gugugu...
+| URL                | 请求 | 描述                   |
+| ------------------ | ---- | ---------------------- |
+| /user/ticket/fetch | GET  | [工单列表](#1工单列表) |
+| /user/ticket/save  | POST | [创建工单](#2创建工单) |
+| /user/ticket/reply | POST | [回复工单](#3回复工单) |
+| /user/ticket/close | POST | [关闭工单](#4关闭工单) |
 
 ___
 
@@ -980,3 +987,183 @@ ___
 | total      | number    | 总条数  |
 
 
+## Ticket
+
+### 1.工单列表
+> `GET` /user/notice/fetch
+
+- 请求参数 `null || id`
+
+- 成功返回示例 `json`
+
+``` json
+{
+    "data": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "subject": "title",
+            "level": 2,
+            "status": 1,
+            "reply_status": 0,
+            "created_at": 1234567890,
+            "updated_at": 1234567890
+        }
+    ]
+}
+```
+
+| 参数名       | 类型      | 描述                    |
+| ------------ | --------- | ----------------------- |
+| id           | number    | 工单id                  |
+| user_id      | number    | 发起者用户id            |
+| subject      | string    | 标题                    |
+| level        | number    | 工单等级 0 低 1 中 2 高 |
+| status       | number    | 工单状态                |
+| reply_status | number    | 回复状态                |
+| created_at   | timestamp | 创建时间                |
+| updated_at   | timestamp | 更新时间                |
+
+- 请求参数为 id 
+- 则返回详细信息
+
+``` json
+{
+    "data": {
+        "id": 1,
+        "user_id": 1,
+        "subject": "xxx",
+        "level": 0,
+        "status": 1,
+        "reply_status": 1,
+        "created_at": 1234567890,
+        "updated_at": 1234567890,
+        "message": [
+            {
+                "id": 1,
+                "user_id": 1,
+                "ticket_id": 1,
+                "message": "xxxxx",
+                "created_at": 1234567890,
+                "updated_at": 1234567890,
+                "is_me": false
+            }
+        ]
+    }
+}
+```
+
+| 参数名       | 类型      | 描述                    |
+| ------------ | --------- | ----------------------- |
+| id           | number    | 工单id                  |
+| user_id      | number    | 发起者用户id            |
+| subject      | string    | 标题                    |
+| level        | number    | 工单等级 0 低 1 中 2 高 |
+| status       | number    | 工单状态                |
+| reply_status | number    | 回复状态                |
+| created_at   | timestamp | 创建时间                |
+| updated_at   | timestamp | 更新时间                |
+| message      | array     | 消息内容 同上           |
+
+### 2.创建工单
+> `POST` /user/ticket/save
+
+- 请求参数 `json`
+
+``` json
+ {
+  "subject": "xxxxxx",
+  "level": "0",
+  "message": "xxxxxx"
+}
+```
+
+| 参数名  | 类型   | 必填 | 描述       |
+| ------- | ------ | ---- | ---------- |
+| subject | string | ✔︎    | 标题       |
+| level   | number | ✔︎    | 等级 0 1 2 |
+| message | string | ✔︎    | 内容       |
+
+- 成功返回示例 `json`
+
+``` json
+{
+    "data": true
+}
+```
+
+| 参数名 | 类型    | 描述     |
+| ------ | ------- | -------- |
+| data   | boolean | 返回成功 |
+
+- 失败返回示例 `json`
+
+``` json
+{
+    "message": "xxxx"
+}
+```
+
+| 参数名  | 类型   | 描述 |
+| ------- | ------ | ---- |
+| message | string | 原因 |
+
+### 3.回复工单
+
+> `POST` /user/ticket/reply
+
+- 请求参数 `json`
+
+```json
+{
+    "id": 1,
+    "message": "xxxxx"
+}
+```
+
+| 参数名  | 类型   | 必填 | 描述     |
+| ------- | ------ | ---- | -------- |
+| id      | number | ✔︎    | 工单id   |
+| message | string | ✔︎    | 回复内容 |
+
+- 成功返回示例 `json`
+
+``` json
+{
+    "data": true
+}
+```
+
+| 参数名 | 类型    | 描述     |
+| ------ | ------- | -------- |
+| data   | boolean | 返回成功 |
+
+### 4.关闭工单
+
+> `POST` /user/ticket/close
+
+- 请求参数 `json`
+
+```json
+{
+    "id": 1
+}
+```
+
+| 参数名 | 类型   | 必填 | 描述   |
+| ------ | ------ | ---- | ------ |
+| id     | number | ✔︎    | 工单id |
+
+- 成功返回示例 `json`
+
+``` json
+{
+    "data": true
+}
+```
+
+| 参数名 | 类型    | 描述     |
+| ------ | ------- | -------- |
+| data   | boolean | 返回成功 |
+
+### 
